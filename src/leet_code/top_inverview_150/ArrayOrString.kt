@@ -1,6 +1,6 @@
 package leet_code.top_inverview_150
 
-class TopInterView150 {
+class ArrayOrString {
 
     companion object {
         /**
