@@ -1,5 +1,7 @@
 package daily_code_challenge
 
+import java.util.*
+
 class DailyCodeChallenge {
     companion object {
 
@@ -17,7 +19,7 @@ class DailyCodeChallenge {
          * Input: s = "tree"
          * Output: "eert"
          * Explanation: 'e' appears twice while 'r' and 't' both appear once.
-         * So 'e' must appear before both 'r' and 't'. Therefore "eetr" is also a valid answer.
+         * So 'e' must appear before both 'r' and 't'. Therefore, "eetr" is also a valid answer.
          * Example 2:
          *
          * Input: s = "cccaaa"
@@ -38,23 +40,25 @@ class DailyCodeChallenge {
          * s consists of uppercase and lowercase English letters and digits.
          */
         fun frequencySort(s: String): String {
-            val frequencyMap: MutableMap<Char, Int> = mutableMapOf()
-            val newStr = StringBuilder()
-
-            s.forEach {
-                if (!frequencyMap.containsKey(it))
-                    frequencyMap[it] = 1
-                else
-                    frequencyMap[it] = frequencyMap[it]!! + 1
+            // Count the occurrences
+            val counts: MutableMap<Char, Int> = mutableMapOf()
+            for (c in s.toCharArray()) {
+                counts[c] = counts.getOrDefault(c, 0) + 1
             }
 
-            frequencyMap.entries.sortedByDescending { it.value }
-                .forEach { mutableEntry ->
-                    for (i in 1..mutableEntry.value)
-                        newStr.append(mutableEntry.key)
-                }
+            // Make a list of keys sorted by frequency
+            val characters: List<Char> = ArrayList(counts.keys)
+            Collections.sort(characters) { a: Char, b: Char -> counts[b]!! - counts[a]!! }
 
-            return newStr.toString()
+            // Finally convert the counts into a String using StringBuilder
+            val sb = StringBuilder()
+            for (c in characters) {
+                for (i in 0..<counts[c]!!) {
+                    sb.append(c)
+                }
+            }
+
+            return sb.toString()
         }
     }
 }
